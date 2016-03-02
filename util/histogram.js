@@ -2,7 +2,7 @@ require("sugar");
 require('descriptive-statistics');
 
 var quote = require('./quote'),
-    printHistogram = require('bars'),
+    printHistogram = { }, //require('bars'),
     colors = require('colors');
 
 exports.analyze = analyze;

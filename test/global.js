@@ -13,23 +13,15 @@ describe('Global', function() {
         });
     });
     
-    describe('#indices((err, result) => { })', function () {
+    describe('#indices', function () {
         it('Returns an object', function () {
-            quoth.global.indices((err, results) => { 
-                should.not.exist(err);
-                results.should.be.an("object");
-                done();
-            });
+            quoth.global.indices.should.be.ok();
         });
     });
     
-    describe('#commodities((err, result) => { })', function () {
+    describe('#commodities', function () {
         it('Returns an object', function () {
-            quoth.global.commodities((err, results) => { 
-                should.not.exist(err);
-                results.should.be.an("object");
-                done();
-            });
+            quoth.global.commodities.should.be.ok();
         });
     });
     
