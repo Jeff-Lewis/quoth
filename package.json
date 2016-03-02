@@ -33,6 +33,7 @@
     "async": "^1.5.2",
     "descriptive-statistics": "0.0.4",
     "emotional": "0.0.3",
+    "finance-scraper": "0.0.0",
     "finance-scraper-js": "0.0.1",
     "htmlparser2": "^3.9.0",
     "request": "^2.69.0",
@@ -43,7 +44,7 @@
     "yahoo-finance": "^0.2.12"
   },
   "devDependencies": {
-    "mocha": "^2.4.5",
-    "should": "^8.2.2"
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5"
   }
 }

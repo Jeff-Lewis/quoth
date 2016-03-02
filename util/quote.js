@@ -4,9 +4,8 @@ var async = require("async"),
     request = require("request"), 
     nasdaq = require("finance-scraper-js").nasdaq,
     yahoo = require("finance-scraper-js").yahoo,
-    other = require('finance-scraper-js'),
+    other = require('finance-scraper'),
     yahooFinance = require('yahoo-finance'),
-    fx = require('yahoo-currency'),
     request = require("request"),
     parse = require('xml-parser');
 
@@ -157,7 +156,6 @@ function getQuote(symbol, cb) {
 }
 
 exports.spot = function(symbol, cb) {
-    console.log("Updating spot info for " + symbol);
     var url = "https://www.google.com/finance/option_chain?q=" + symbol + "&output=json";
     request(url, function(err, response, body) {
         if (err) cb(err);
@@ -228,11 +226,21 @@ var historicals = exports.historicals = function(symbol, from, to, cb) {
 ////////////////////////////////////////////////////////////////////////////////
 exports.statistics = function(symbol, cb) {
     async.series([
-        function(cb) { other.getTickerData(symbol).then(cb); },
-        function(cb) { other.getProfileData(symbol).then(cb); },
+        function(cb) { 
+            other.getTickerData(symbol).then(function(data) {
+                cb(null, data);
+            }); 
+        },
+        function(cb) { 
+            other.getProfileData(symbol).then(function(data) {
+                cb(null, data);
+            }); 
+        },
         function(cb) { yahoo.getKeyStatistics(symbol, null, cb); },
         function(cb) { yahoo.getHV(symbol, null, cb); }
-    ], cb);
+    ], function(err, results) {
+        cb(err, results);
+    });
 };
 
 exports.keyStatistics = function(symbol, cb) {
@@ -252,7 +260,9 @@ exports.fundamentals = function(symbol, cb) {
         function(cb) { yahoo.getFundamentals("Balance Sheet", symbol, "quarter", null, cb) },
         function(cb) { yahoo.getFundamentals("Cash Flow", symbol, "quarter", null, cb) },
         function(cb) { yahoo.getFundamentals("Income Statement", symbol, "quarter", null, cb) }
-    ], cb);
+    ], function(err, results) {
+        cb(err, results);
+    });
 };
 
 exports.balanceSheet = function(symbol, cb) {
@@ -271,86 +281,57 @@ exports.income = function(symbol, cb) {
 ////////////////////////////////////////////////////////////////////////////////
 // YIELD CURVE
 ////////////////////////////////////////////////////////////////////////////////
-exports.yieldCurve = function(cb) {
-    async.mapSeries([ 3, 6, 24, 36, 60, 120, 360 ], function(tenor, cb) {
-        yahoo.getRiskFreeRate(tenor, next);
-    }, cb);
-};
-
-exports.rate3Month = function(cb) {
-    yahoo.getRiskFreeRate(3, next);
-};
-
-exports.rate6Month = function(cb) {
-    yahoo.getRiskFreeRate(6, next);
-};
-
-exports.rate2Year = function(cb) {
-    yahoo.getRiskFreeRate(24, next);
-};
-
-exports.rate3Year = function(cb) {
-    yahoo.getRiskFreeRate(36, next);
-};
-
-exports.rate5Year = function(cb) {
-    yahoo.getRiskFreeRate(60, next);
-};
-
-exports.rate10Year = function(cb) {
-    yahoo.getRiskFreeRate(12 * 10, next);
-};
-
-exports.rate30Year = function(cb) {
-    yahoo.getRiskFreeRate(12 * 30, next);
-};
-
 exports.treasuries = function(cb) {
-    console.log("Downloading bond data...");
     request("http://data.treasury.gov/feed.svc/DailyTreasuryYieldCurveRateData", function(err, response, body) {
-        console.log("Parsing bond data...");
-        var xml = parse(body.toString());
-        
-        console.log("Pruning bond data...");
-        var records = null;
-        
-        try {
-            records = xml.root.children.filter(function(x) {
-                return x.name == "entry";
-            }).map(function(d) {
-                var record = { };
-                d.children.find(function(c) { return c.name == "content"; }).children[0].children.forEach(function(field) {
-                    if (field.name.indexOf(":") >= 0) {
-                        field.name = field.name.from(field.name.indexOf(":") + 1);
-                    }
-
-                    field.name = field.name.replace("BC_", "rate");
-
-                    var fieldName = field.name.camelize(false);
-                    record[fieldName] = field.content;
-                    if (fieldName.indexOf("Date") >= 0) {
-                        record[fieldName] = Date.create(record[fieldName]);
-                    }
-                    else if (fieldName.startsWith("rate")) {
-                        record[fieldName] = parseFloat(record[fieldName]);
-                    }
-                    else if (fieldName == "id") {
-                        record[fieldName] = parseInt(record[fieldName]);
-                    }
-                });
-
-                delete record.rate30Yeardisplay;
-                delete record.id;
-
-                return record;
-            }).sortBy("newDate");
+        if (err) {
+            cb(err);
         }
-        catch (ex) {
-            cb(ex);
-            return;
+        else if (response.statusCode != 200) {
+            cb(new Error(response.statusCode + " HTTP response."));
         }
+        else {
+            var xml = body.toString(),
+                records = null;
+            
+            try {
+                xml = parse(xml);
+                records = xml.root.children.filter(function(x) {
+                    return x.name == "entry";
+                }).map(function(d) {
+                    var record = { };
+                    d.children.find(function(c) { return c.name == "content"; }).children[0].children.forEach(function(field) {
+                        if (field.name.indexOf(":") >= 0) {
+                            field.name = field.name.from(field.name.indexOf(":") + 1);
+                        }
 
-        cb(null, records);
+                        field.name = field.name.replace("BC_", "rate");
+
+                        var fieldName = field.name.camelize(false);
+                        record[fieldName] = field.content;
+                        if (fieldName.indexOf("Date") >= 0) {
+                            record[fieldName] = Date.create(record[fieldName]);
+                        }
+                        else if (fieldName.startsWith("rate")) {
+                            record[fieldName] = parseFloat(record[fieldName]);
+                        }
+                        else if (fieldName == "id") {
+                            record[fieldName] = parseInt(record[fieldName]);
+                        }
+                    });
+
+                    delete record.rate30Yeardisplay;
+                    delete record.id;
+
+                    return record;
+                }).sortBy("newDate");
+            }
+            catch (ex) {
+                cb(ex);
+                return;
+            }
+
+            cb(null, records);
+        }
     });
 };
 
@@ -358,13 +339,7 @@ exports.treasuries = function(cb) {
 ////////////////////////////////////////////////////////////////////////////////
 // FOREIGN EXCHANGE
 ////////////////////////////////////////////////////////////////////////////////
-exports.rates = function(cb) {
-    fx.fullRate().then(function(data) {
-        cb(null, data);
-    });
-};
-
-exports.indices = Object.extend({
+exports.indices = {
     "United States": "^GSPC",
     "United Kingdom": "^FTSE",
     "Germany": "^GDAXI",
@@ -394,22 +369,19 @@ exports.indices = Object.extend({
     "Switzerland": "^SSMI",
     "Greece": "GD.AT",
     "Austria": "^ATX"
-});
+};
 
-exports.commodities = Object.extend({
+exports.commodities = {
     "Gold": "XAUUSD",
-    "Vix": "^VXX",
-});
+    "VIX": "^VXX",
+};
 
 exports.globalIndices = function(cb) {
-    async.mapSeries(exports.indices, function(symbol, cb) {
-        quote.historicals(symbol, Date.create("1 week ago"), Date.create(), cb);
+    var last = { };
+    async.forEachSeries(exports.indices, function(symbol, cb) {
+        last[symbol] = exports.historicals(symbol, Date.create("1 week ago"), Date.create(), cb);
     }, function(err, results) {
         if (err) cb(err);
-        else {
-            var last = { };
-            Object.keys(results).forEach(function(key) { last[key] = results[key].last(); });
-            cb(null, last);
-        }
+        else cb(null, last);
     });
 };
