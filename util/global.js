@@ -10,7 +10,7 @@ exports.rates = function(cb) {
     });
 };
 
-exports.indices = {
+exports.indices = Object.extend({
     "United States": "^GSPC",
     "United Kingdom": "^FTSE",
     "Germany": "^GDAXI",
@@ -40,16 +40,14 @@ exports.indices = {
     "Switzerland": "^SSMI",
     "Greece": "GD.AT",
     "Austria": "^ATX"
-};
+});
 
-exports.commodities = {
+exports.commodities = Object.extend({
     "Gold": "XAUUSD",
     "Vix": "^VXX",
-};
+});
 
-exports.globalIndices = globalIndices;
-
-function globalIndices(cb) {
+exports.globalIndices = function(cb) {
     async.mapSeries(exports.indices, function(symbol, cb) {
         quote.historicals(symbol, Date.create("1 week ago"), Date.create(), cb);
     }, function(err, results) {
@@ -60,4 +58,4 @@ function globalIndices(cb) {
             cb(null, last);
         }
     });
-}
+};
