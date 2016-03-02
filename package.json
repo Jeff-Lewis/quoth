@@ -1,0 +1,46 @@
+{
+  "name": "quoth",
+  "version": "1.0.0",
+  "description": "Free financial quotes.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/triploc/quoth.git"
+  },
+  "keywords": [
+    "free",
+    "financial",
+    "quotes",
+    "yahoo",
+    "google",
+    "finance",
+    "stock",
+    "stocks",
+    "equities",
+    "option",
+    "options"
+  ],
+  "author": "Jonathan Hollinger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/triploc/quoth/issues"
+  },
+  "homepage": "https://github.com/triploc/quoth#readme",
+  "dependencies": {
+    "async": "^1.5.2",
+    "bars": "^0.1.17",
+    "colors": "^1.1.2",
+    "descriptive-statistics": "0.0.4",
+    "finance-scraper-js": "0.0.1",
+    "sugar": "^1.4.1",
+    "talib": "^1.0.2",
+    "yahoo-currency": "0.0.10",
+    "yahoo-finance": "^0.2.12"
+  },
+  "devDependencies": {
+    "mocha": "^2.4.5"
+  }
+}
