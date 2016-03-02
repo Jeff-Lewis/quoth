@@ -4,7 +4,7 @@ var async = require("async");
 
 var nasdaq = require("finance-scraper-js").nasdaq,
     yahoo = require("finance-scraper-js").yahoo,
-    other = require('finance-scraper'),
+    other = require('finance-scraper-js'),
     yahooFinance = require('yahoo-finance');
 
 

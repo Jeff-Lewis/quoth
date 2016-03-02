@@ -1,4 +1,4 @@
 exports.global = require("./util/global");
-export.histogram = require("./util/histogram");
-export.quote = require("./util/quote");
-export.technicals = require("./util/technicals");
+exports.histogram = require("./util/histogram");
+exports.quote = require("./util/quote");
+exports.technicals = require("./util/technicals");
