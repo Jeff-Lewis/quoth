@@ -152,7 +152,8 @@ exports.fetch = function(symbol, cb) {
             getNews(symbol, cb);
         },
         function(cb) {
-            getTweets(symbol, cb);
+            if (twitter) getTweets(symbol, cb);
+            else cb();
         }
     ], function(err, results) {
         if (err) cb(err);

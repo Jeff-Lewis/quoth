@@ -31,8 +31,6 @@
   "homepage": "https://github.com/triploc/quoth#readme",
   "dependencies": {
     "async": "^1.5.2",
-    "bars": "^0.1.17",
-    "colors": "^1.1.2",
     "descriptive-statistics": "0.0.4",
     "emotional": "0.0.3",
     "finance-scraper-js": "0.0.1",
@@ -40,7 +38,6 @@
     "request": "^2.69.0",
     "sentiment": "^1.0.6",
     "sugar": "^1.4.1",
-    "talib": "^1.0.2",
     "xml-parser": "^1.2.1",
     "yahoo-currency": "0.0.10",
     "yahoo-finance": "^0.2.12"
