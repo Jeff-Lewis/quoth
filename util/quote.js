@@ -378,8 +378,8 @@ exports.commodities = {
 
 exports.globalIndices = function(cb) {
     var last = { };
-    async.forEachSeries(exports.indices, function(symbol, cb) {
-        last[symbol] = exports.historicals(symbol, Date.create("1 week ago"), Date.create(), cb);
+    async.forEachSeries(Object.keys(exports.indices), function(symbol, cb) {
+        last[symbol] = exports.historicals(exports.indices[symbol], Date.create("1 week ago"), Date.create(), cb);
     }, function(err, results) {
         if (err) cb(err);
         else cb(null, last);

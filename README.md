@@ -7,28 +7,28 @@
 var quoth = require("quoth");
 
 // Listed companies
-quoth.quote.companies((err, results) => { });
+quoth.companies((err, results) => { });
 
 // Quotes
-quoth.quote.spot(symbol, (err, result) => { });
-quoth.quote.statistics(symbol, (err, results) => { });
-quoth.quote.keyStatistics(symbol, (err, results) => { });
-quoth.quote.volatility(symbol, (err, results) => { });
-quoth.quote.historicals(symbol, from, to, (err, results) => { });
+quoth.spot(symbol, (err, result) => { });
+quoth.statistics(symbol, (err, results) => { });
+quoth.keyStatistics(symbol, (err, results) => { });
+quoth.volatility(symbol, (err, results) => { });
+quoth.historicals(symbol, from, to, (err, results) => { });
 
 // Fundamentals
-quoth.quote.fundamentals(symbol, (err, results) => { });
-quoth.quote.balanceSheet(symbol, (err, results) => { });
-quoth.quote.cashflow(symbol, (err, results) => { });
-quoth.quote.income(symbol, (err, results) => { });
+quoth.fundamentals(symbol, (err, results) => { });
+quoth.balanceSheet(symbol, (err, results) => { });
+quoth.cashflow(symbol, (err, results) => { });
+quoth.income(symbol, (err, results) => { });
 
 // Bonds
-quoth.quote.treasuries((err, results) => { });
+quoth.treasuries((err, results) => { });
 
 // Global Indices
-quoth.quote.indices = [ ... ];
-quoth.quote.commodities = [ ... ];
-quoth.quote.globalIndicies((err, result) => { });
+quoth.indices = { ... };
+quoth.commodities = { ... };
+quoth.globalIndicies((err, result) => { });
 
 // Sentiment and Emotion
 quoth.sentiment.init({

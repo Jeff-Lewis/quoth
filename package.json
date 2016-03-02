@@ -39,6 +39,7 @@
     "request": "^2.69.0",
     "sentiment": "^1.0.6",
     "sugar": "^1.4.1",
+    "twitter": "^1.2.5",
     "xml-parser": "^1.2.1",
     "yahoo-currency": "0.0.10",
     "yahoo-finance": "^0.2.12"

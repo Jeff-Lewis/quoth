@@ -4,7 +4,8 @@ var async = require("async"),
     request = require("request"),
     htmlparser = require("htmlparser2"),
     sentiment = require('sentiment'),
-    emotional = require("emotional");
+    emotional = require("emotional"),
+    Twitter = require("twitter");
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -22,7 +23,7 @@ var async = require("async"),
 var twitter = null;
 
 function init(config, cb) {
-    twitter = new require("twitter")(config);
+    twitter = new Twitter(config);
     emotional.load(function() {
         cb();
     });
@@ -65,14 +66,18 @@ function parseTweets(data) {
 }
 
 function getHomeTweets(cb) {
-    twitter.get('/statuses/home_timeline.json', function(data) {
-        cb(null, parseTweets(data));
+    twitter.get('/statuses/home_timeline', function(err, tweets, response) {
+        if (err) cb(err);
+        else cb(null, parseTweets(tweets.statuses));
     });
 }
     
-function getTweets(symbol, cb) {    
-    twitter.search("$" + symbol + ' OR #' + symbol, function(data) {
-        cb(null, parseTweets(data.statuses));
+function getTweets(symbol, cb) {  
+    twitter.get('search/tweets', {
+        q: "$" + symbol + ' OR #' + symbol
+    }, function(err, tweets, response) {
+        if (err) cb(err);
+        else cb(null, parseTweets(tweets.statuses));
     });
 }
 
@@ -96,13 +101,12 @@ function parseRSS(body, cb) {
 }
 
 function getNews(symbol, cb) {
-    console.log("Getting news for " + symbol + "...");
     async.series([
         function(cb) {
             request("https://www.google.com/finance/company_news?q=" + symbol + "&output=rss", function(err, response, body) {
                 if (err) cb(err);
                 else if (response.statusCode != 200) {
-                    console.log(symbol + " " + response.statusCode);
+                    console.debug(symbol + " " + response.statusCode);
                     cb();
                     //cb(new Error("HTTP status code " + response.statusCode));
                 }
@@ -113,7 +117,7 @@ function getNews(symbol, cb) {
             request("http://feeds.finance.yahoo.com/rss/2.0/headline?s=" + symbol + "&region=US&lang=en-US", function(err, response, body) {
                 if (err) cb(err);
                 else if (response.statusCode != 200) {
-                    console.log(symbol + " " + response.statusCode);
+                    console.debug(symbol + " " + response.statusCode);
                     cb();
                     //cb(new Error("HTTP status code " + response.statusCode));
                 }

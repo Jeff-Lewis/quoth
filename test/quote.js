@@ -15,7 +15,7 @@ describe('Quote', function() {
     describe('#companies((err, results) => { })', function() {
         it('returns an array', function(done) {
             this.timeout(120000);
-            quoth.quote.companies((err, results) => { 
+            quoth.companies((err, results) => { 
                 if (err) throw err;
                 else {
                     results.should.be.an("array");
@@ -27,7 +27,7 @@ describe('Quote', function() {
     
     describe('#spot(symbol, (err, results) => { })', function () {
         it('returns an object', function(done) {
-            quoth.quote.spot("AAPL", (err, results) => { 
+            quoth.spot("AAPL", (err, results) => { 
                 if (err) throw err;
                 else {
                     results.should.be.an("object");
@@ -39,7 +39,7 @@ describe('Quote', function() {
     
     describe('#historicals(symbol, from, to, (err, results) => { })', function () {
         it('returns an array', function(done) {
-            quoth.quote.historicals("AAPL", Date.create("January 1, 2016"), Date.create("March 1, 2016"), (err, results) => { 
+            quoth.historicals("AAPL", Date.create("January 1, 2016"), Date.create("March 1, 2016"), (err, results) => { 
                 if (err) throw err;
                 else {
                     results.should.be.an("array");
@@ -51,7 +51,7 @@ describe('Quote', function() {
     
     describe('#statistics(symbol, (err, results) => { })', function () {
         it('returns an array', function(done) {
-            quoth.quote.statistics("AAPL", (err, results) => { 
+            quoth.statistics("AAPL", (err, results) => { 
                 if (err) throw err;
                 else {
                     results.should.be.an("array");
@@ -63,7 +63,7 @@ describe('Quote', function() {
     
     describe('#keyStatistics(symbol, (err, results) => { })', function () {
         it('returns an array', function(done) {
-            quoth.quote.keyStatistics("AAPL", (err, results) => { 
+            quoth.keyStatistics("AAPL", (err, results) => { 
                 if (err) throw err;
                 else {
                     results.should.be.an("array");
@@ -75,7 +75,7 @@ describe('Quote', function() {
     
     describe('#volatility(symbol, (err, results) => { })', function () {
         it('returns a number', function(done) {
-            quoth.quote.volatility("AAPL", (err, results) => { 
+            quoth.volatility("AAPL", (err, results) => { 
                 if (err) throw err;
                 else {
                     results.should.be.an("number");
@@ -88,7 +88,7 @@ describe('Quote', function() {
     describe('#fundamentals(symbol, (err, results) => { })', function () {
         this.timeout(120000);
         it('returns an array', function(done) {
-            quoth.quote.fundamentals("AAPL", (err, results) => { 
+            quoth.fundamentals("AAPL", (err, results) => { 
                 if (err) throw err;
                 else {
                     results.should.be.an("array");
@@ -100,7 +100,7 @@ describe('Quote', function() {
     
     describe('#balanceSheet(symbol, (err, results) => { })', function () {
         it('returns an array', function(done) {
-            quoth.quote.balanceSheet("AAPL", (err, results) => { 
+            quoth.balanceSheet("AAPL", (err, results) => { 
                 if (err) throw err;
                 else {
                     results.should.be.an("array");
@@ -112,7 +112,7 @@ describe('Quote', function() {
     
     describe('#cashflow(symbol, (err, results) => { })', function () {
         it('returns an array', function(done) {
-            quoth.quote.cashflow("AAPL", (err, results) => { 
+            quoth.cashflow("AAPL", (err, results) => { 
                 if (err) throw err;
                 else {
                     results.should.be.an("array");
@@ -124,7 +124,7 @@ describe('Quote', function() {
     
     describe('#income(symbol, (err, results) => { })', function () {
         it('returns an array', function(done) {
-            quoth.quote.income("AAPL", (err, results) => { 
+            quoth.income("AAPL", (err, results) => { 
                 if (err) throw err;
                 else {
                     results.should.be.an("array");
@@ -137,7 +137,7 @@ describe('Quote', function() {
     describe('#treasuries((err, results) => { })', function () {
         this.timeout(120000);
         it('returns an object', function(done) {
-            quoth.quote.treasuries((err, results) => { 
+            quoth.treasuries((err, results) => { 
                 if (err) throw err;
                 else {
                     results.should.be.an("array");
@@ -150,7 +150,7 @@ describe('Quote', function() {
     describe('#globalIndices((err, result) => { })', function() {
         this.timeout(120000);
         it('returns an object', function(done) {
-            quoth.quote.globalIndices((err, results) => { 
+            quoth.globalIndices((err, results) => { 
                 if (err) throw err;
                 else {
                     results.should.be.an("object");

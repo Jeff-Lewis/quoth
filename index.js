@@ -1,2 +1,2 @@
-exports.quote = require("./util/quote");
-exports.sentiment = require("./util/sentiment");
+module.exports = require("./util/quote");
+module.exports.sentiment = require("./util/sentiment");
