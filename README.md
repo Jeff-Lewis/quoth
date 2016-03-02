@@ -26,8 +26,8 @@ quoth.quote.income(symbol, (err, results) => { });
 quoth.quote.treasuries((err, results) => { });
 
 // Global Indices
-quoth.quote.indices((err, result) => { });
-quoth.quote.commodities((err, result) => { });
+quoth.quote.indices = [ ... ];
+quoth.quote.commodities = [ ... ];
 quoth.quote.globalIndicies((err, result) => { });
 
 // Sentiment and Emotion
