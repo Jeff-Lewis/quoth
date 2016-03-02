@@ -10,7 +10,7 @@ var quoth = require("quoth");
 quoth.quote.companies((err, results) => { });
 
 // Quotes
-quoth.quote.spot((err, result) => { });
+quoth.quote.spot(symbol, (err, result) => { });
 quoth.quote.statistics(symbol, (err, results) => { });
 quoth.quote.keyStatistics(symbol, (err, results) => { });
 quoth.quote.volatility(symbol, (err, results) => { });
@@ -40,7 +40,15 @@ quoth.quote.commodities((err, result) => { });
 quoth.quote.globalIndicies((err, result) => { });
 
 // Sentiment and Emotion
-quoth.sentiment.init(object, (err) => { });
-quote.sentiment.fetch(symbol, (err, results) => { });
+quoth.sentiment.init({
+        consumer_key: '...',
+        consumer_secret: '...',
+        access_token_key: '...',
+        access_token_secret: '...'
+}, (err) => { 
+    if (err) throw err;
+    else quote.sentiment.fetch(symbol, (err, results) => { });
+});
+
 
 ```
