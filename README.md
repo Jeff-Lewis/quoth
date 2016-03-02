@@ -2,7 +2,7 @@
 
 ## A free financial quotes library
 
-'''js
+```javascript
 
 var quoth = require("quoth");
 
@@ -39,4 +39,4 @@ quote.quote.rate30Year((err, results) => { });
 quote.technicals.names == [ ... ];
 quotes.technicals.functions[name](options, (err, results) => { });
 
-'''
+```
