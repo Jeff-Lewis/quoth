@@ -147,18 +147,6 @@ describe('Quote', function() {
         });
     });
     
-    describe('#indices', function() {
-        it.skip('returns an object', function () {
-            expect(quoth.quote.indicies).to.be.an("object");
-        });
-    });
-    
-    describe('#commodities', function () {
-        it.skip('returns an object', function () {
-            expect(quoth.quote.commodities).to.be.an("object");
-        });
-    });
-    
     describe('#globalIndices((err, result) => { })', function() {
         this.timeout(120000);
         it('returns an object', function(done) {
