@@ -39,4 +39,4 @@ quote.quote.rate30Year((err, results) => { });
 quote.technicals.names == [ ... ];
 quotes.technicals.functions[name](options, (err, results) => { });
 
-'
+'''
