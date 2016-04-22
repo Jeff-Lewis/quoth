@@ -194,30 +194,7 @@ var historicals = exports.historicals = function(symbol, from, to, cb) {
         from: from.format("{yyyy}-{MM}-{dd}"),
         to: to.format("{yyyy}-{MM}-{dd}"),
         period: 'd'  // 'd' (daily), 'w' (weekly), 'm' (monthly), 'v' (dividends only) 
-    }, function(err, quotes) {
-        if (err) cb(err);
-        else {
-            for (var i = 0; i < quotes.length; i++) {
-                var quote = quotes[i],
-                    last = quotes[Math.max(0, i - 1)],
-                    next = quotes[Math.min(quotes.length - 1, i + 1)];
-
-                quote.change = (quote.close - quote.open) / quote.open * 100;
-                quote.volatility = (quote.high - quote.low) / quote.open * 100;
-                quote.energy = quote.volatility / (quote.change ? quote.change : 0.01);
-
-                quote.upside = (quote.high - quote.open) / quote.open * 100;
-                quote.downside = (quote.open - quote.low) / quote.open * 100;
-
-                quote.overshot = (quote.high - quote.close) / quote.close * 100;
-                quote.undershot = (quote.close - quote.low) / quote.close * 100;
-
-                quote.overnight = (quote.open - last.close) / last.close * 100;
-            }
-            
-            cb(null, quotes);
-        }
-    });    
+    }, cb);    
 };
 
 
