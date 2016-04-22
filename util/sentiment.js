@@ -135,7 +135,9 @@ function getNews(symbol, cb) {
                 
                 var text = Object.values(item).join(". ").trim();
                 item.sentiment = sentiment(text);
-                item.emotion = emotional.get(text);
+                
+                try { item.emotion = emotional.get(text); }
+                catch (ex) { }
 
                 return item;
             }).unique("title"));

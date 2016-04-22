@@ -9,6 +9,8 @@ describe('Sentiment', function() {
     
     var config = null;
     
+    this.timeout(30000);
+    
     before((done) => {
         fs.readFile(__dirname + "/../credentials.json", (err, json) => {
             if (err) throw err;
@@ -21,14 +23,14 @@ describe('Sentiment', function() {
     });
     
     describe('#init((err, result) => { })', function() {
-        it('Returns an object', (done) => {
+        it('Can be initialized', (done) => {
             quoth.sentiment.init(config, done);
         });
     }); 
     
     describe('#fetch(symbol, (err, result) => { })', function() {
         it('Returns an object', (done) => {
-            quoth.sentiment.fetch("AAPL", (err, results) => {
+            quoth.sentiment.fetch("IBM", (err, results) => {
                 if (err) throw err;
                 else {
                     results.should.be.an("object");
